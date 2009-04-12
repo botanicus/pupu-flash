@@ -1,24 +1,63 @@
+
 // var flash = new Flash("msg", {duration: "small"});
-// <div class="msg" id="error"></div>
+// <div id="msg-error"></div>
 Flash = new Class({
-  message: function(id, text) {
-    var element = $(id);
-    if (element) {
-      var slide = new Fx.Slide(element);
-      slide.hide();
-      element.set("html", text);
-      slide.slideIn();
-      (function() { slide.slideOut() }).delay(2500);
+  initialize: function(prefix, options) {
+    this.prefix          = prefix;
+    this.error_element   = $(this.prefix + "-error");
+    this.notice_element  = $(this.prefix + "-notice");
+    this.success_element = $(this.prefix + "-success");
+    this.first_run();
+  },
+
+  message: function(element, title, text) {
+    if (title) { text = "<h3>" + title + "</h3>" + text }
+    var slide = new Fx.Slide(element);
+    slide.hide();
+    element.set("html", text);
+    slide.slideIn();
+    (function() { slide.slideOut() }).delay(2500);
+  },
+
+  error: function(title, text) {
+    if (text) {
+      // flash.error("Just an alert");
+      this.message(this.error_element, title, text);
     } else {
-      alert(text);
+      // flash.error("Just an alert");
+      this.message(this.error_element, null, title);
     }
   },
 
-  error: function(text) {
-    this.message("msg-error", text);
+  notice: function(title, text) {
+    if (text) {
+      // flash.notice("Just an alert");
+      this.message(this.notice_element, title, text);
+    } else {
+      // flash.notice("Just an alert");
+      this.message(this.notice_element, null, title);
+    }
   },
 
-  notice: function(text) {
-    this.message("msg-notice", text);
+  success: function(title, text) {
+    if (text) {
+      // flash.error("Just an alert");
+      this.message(this.success_element, title, text);
+    } else {
+      // flash.error("Just an alert");
+      this.message(this.success_element, null, title);
+    }
+  },
+
+  first_run: function() {
+    var flash = this;
+    [this.error_element, this.notice_element, this.success_element].each(function(element) {
+      element.setStyle("display", "block");
+      if (element.get("html") != "") {
+        flash.message(element, "", element.get("html"));
+      } else {
+        element.slide("hide");
+      }
+    });
   },
 });

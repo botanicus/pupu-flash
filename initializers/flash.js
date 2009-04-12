@@ -1,5 +1,6 @@
 window.addEvent("domready", function() {
-  var flash = new Flash();
+  // msg-error, msg-notice, msg-success
+  var flash = new Flash("msg");
   // With title
   // flash.error("Error", "Application failed");
   // flash.notice("Notice", "Order was sent");
