@@ -1,5 +1,5 @@
 # dependencies of the pupu
-#dependencies :mootools
+dependencies :mootools
 
 # javascripts for loading
 javascript "flash"
